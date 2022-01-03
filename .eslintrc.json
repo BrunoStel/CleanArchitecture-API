@@ -8,5 +8,8 @@
     },
     "env": {
         "jest": true
+    },
+    "rules":{
+        "@typescript-eslint/strict-boolean-expressions" : "off"
     }
 }
