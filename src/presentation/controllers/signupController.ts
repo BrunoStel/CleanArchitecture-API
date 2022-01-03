@@ -1,11 +1,10 @@
 
 class SignupController {
   handle (httpRequest: any): any {
-    const body = {
-      statusCode: 400
+    return {
+      statusCode: 400,
+      body: new Error('Missing param: name')
     }
-
-    return body
   }
 }
 
