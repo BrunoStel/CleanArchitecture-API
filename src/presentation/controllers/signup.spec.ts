@@ -154,4 +154,22 @@ describe('signup controller', () => {
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
   })
+
+  it('should return status 400 if password and passwordConfirmation is different from each other', () => {
+    const { sut } = makeSut()
+
+    const httpRequest = {
+      body: {
+        email: 'any_email@any.com',
+        name: 'any_name',
+        password: 'any_password',
+        passwordConfirmation: 'any_password_diff'
+      }
+    }
+
+    const httpResponse = sut.handle(httpRequest)
+
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirmation is different from password'))
+  })
 })
