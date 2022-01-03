@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1641219674814" clover="3.2.0">
-  <project timestamp="1641219674814" name="All files">
-    <metrics statements="29" coveredstatements="23" conditionals="6" coveredconditionals="4" methods="3" coveredmethods="2" elements="38" coveredelements="29" complexity="0" loc="29" ncloc="29" packages="3" files="3" classes="3"/>
+<coverage generated="1641220022764" clover="3.2.0">
+  <project timestamp="1641220022764" name="All files">
+    <metrics statements="24" coveredstatements="23" conditionals="5" coveredconditionals="4" methods="2" coveredmethods="2" elements="31" coveredelements="29" complexity="0" loc="24" ncloc="24" packages="2" files="2" classes="2"/>
     <package name="controllers">
       <metrics statements="18" coveredstatements="17" conditionals="4" coveredconditionals="3" methods="1" coveredmethods="1"/>
       <file name="signupController.ts" path="C:\Users\BrunoS\Desktop\CleanAPI\src\presentation\controllers\signupController.ts">
@@ -36,17 +36,6 @@
         <line num="4" count="8" type="stmt"/>
         <line num="5" count="8" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-      </file>
-    </package>
-    <package name="protocols">
-      <metrics statements="5" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
-      <file name="IController.ts" path="C:\Users\BrunoS\Desktop\CleanAPI\src\presentation\protocols\IController.ts">
-        <metrics statements="5" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
       </file>
     </package>
   </project>
