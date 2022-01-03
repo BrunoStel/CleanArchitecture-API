@@ -1,8 +1,6 @@
-import { IHttpRequest, IHttpResponse } from '../protocols/IHtpp'
+import { IHttpRequest, IHttpResponse, IController, IEmailValidator } from '../protocols'
 import { MissinParamError, InvalidParamError } from '../errors/index'
 import { badRequest, serverError } from '../helpers/http-helper'
-import { IController } from '../protocols/IController'
-import { IEmailValidator } from '../protocols/IEmailValidator'
 
 class SignupController implements IController {
   private readonly emailValidator: IEmailValidator
