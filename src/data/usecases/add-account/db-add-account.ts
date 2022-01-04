@@ -1,0 +1,24 @@
+import { IAccountModel } from '../../../domain/models/IAccountModel'
+import { IAddAccount, IAddAccountModel } from '../../../domain/usecases/protocols/IAddAccount'
+import { IEncrypter } from '../protocols/IEncrypterProtocols'
+
+export class DbAddAccount implements IAddAccount {
+  constructor (private readonly encrypter: IEncrypter) {
+    this.encrypter = encrypter
+  }
+
+  async add (account: IAddAccountModel): Promise<IAccountModel> {
+    const { name, email, password } = account
+
+    await this.encrypter.encrypt(password)
+
+    const accountCreated = {
+      id: 'valid_id',
+      name: name,
+      email: email,
+      password: password
+    }
+
+    return accountCreated
+  }
+}
