@@ -1,12 +1,18 @@
 import { IHttpRequest, IHttpResponse, IController, IEmailValidator } from '../protocols'
 import { MissinParamError, InvalidParamError } from '../errors/index'
 import { badRequest, serverError } from '../helpers/http-helper'
+import { IAddAccount } from '../../domain/usecases/protocols/IAddAccount'
 
 class SignupController implements IController {
   private readonly emailValidator: IEmailValidator
+  private readonly addAccount: IAddAccount
 
-  constructor (emailValidator: IEmailValidator) {
+  constructor (
+    emailValidator: IEmailValidator,
+    addAccount: IAddAccount
+  ) {
     this.emailValidator = emailValidator
+    this.addAccount = addAccount
   }
 
   handle (httpRequest: IHttpRequest): IHttpResponse {
@@ -19,7 +25,7 @@ class SignupController implements IController {
         }
       }
 
-      const { email, password, passwordConfirmation } = httpRequest.body
+      const { name, email, password, passwordConfirmation } = httpRequest.body
 
       if (password !== passwordConfirmation) {
         return badRequest(new InvalidParamError('passwordConfirmation is different from password'))
@@ -29,6 +35,7 @@ class SignupController implements IController {
       if (!isValid) {
         return badRequest(new InvalidParamError('email'))
       }
+      this.addAccount.add({ name, email, password })
     } catch (error) {
       return serverError()
     }
