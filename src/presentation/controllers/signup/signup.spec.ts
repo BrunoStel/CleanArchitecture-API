@@ -1,5 +1,5 @@
 import { MissinParamError, InvalidParamError, ServerError } from '../../errors/index'
-import { IEmailValidator, IAccountModel, IAddAccount, IAddAccountModel } from '../../controllers/signup/signupProtocols'
+import { IEmailValidator, IAccountModel, IAddAccount, IAddAccountModel } from './signupProtocols'
 import { SignupController } from './signupController'
 
 interface ISutTypes {

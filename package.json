@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watch",
-    "test:staged":"jest"
+    "test:staged":"jest",
+    "clear_jest": "jest --clearCache"
   },
   "keywords": [],
   "author": "",
