@@ -2,7 +2,7 @@ import { IAddAccount } from '../../../domain/usecases/protocols/IAddAccount'
 import { IEncrypter } from '../protocols/IEncrypterProtocols'
 import { DbAddAccount } from './db-add-account'
 
-interface IStub {
+interface IStuTypes {
   encryoterStub: IEncrypter
   sut: IAddAccount
 }
@@ -17,7 +17,7 @@ const makeEncrypterStub = (): IEncrypter => {
   return new EncrypterStub()
 }
 
-const makeSut = (): IStub => {
+const makeSut = (): IStuTypes => {
   const encryoterStub = makeEncrypterStub()
 
   const sut = new DbAddAccount(encryoterStub)
@@ -41,6 +41,22 @@ describe('DbAddAccount UseCase', () => {
     await sut.add(accountData)
 
     expect(encryptSpy).toHaveBeenCalledWith(accountData.password)
+  })
+  it('Should throw if Encrypter throws ', async () => {
+    const { sut, encryoterStub } = makeSut()
+
+    jest.spyOn(encryoterStub, 'encrypt').mockResolvedValueOnce(
+      new Promise((resolve, reject) => reject(new Error()))
+    )
+
+    const accountData = {
+      name: 'valid_name',
+      email: 'valid_email',
+      password: 'valid_password'
+    }
+    const promise = sut.add(accountData)
+
+    await expect(promise).rejects.toThrow()
   })
   it('Should return an Account if valid data is provided ', async () => {
     const { sut } = makeSut()
