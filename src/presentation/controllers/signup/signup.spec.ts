@@ -1,7 +1,5 @@
-import { IAccountModel } from '../../domain/usecases/models/AccountModel'
-import { IAddAccount, IAddAccountModel } from '../../domain/usecases/protocols/IAddAccount'
-import { MissinParamError, InvalidParamError, ServerError } from '../errors/index'
-import { IEmailValidator } from '../protocols'
+import { MissinParamError, InvalidParamError, ServerError } from '../../errors/index'
+import { IEmailValidator, IAccountModel, IAddAccount, IAddAccountModel } from '../../controllers/signup/signupProtocols'
 import { SignupController } from './signupController'
 
 interface ISutTypes {
