@@ -77,7 +77,7 @@ describe('DbAddAccount UseCase', () => {
 
     await expect(promise).rejects.toThrow()
   })
-  it('Should return an Account with valid data', async () => {
+  it('Should return an Account on succes', async () => {
     const { sut } = makeSut()
     const data = {
       name: 'valid_name',
