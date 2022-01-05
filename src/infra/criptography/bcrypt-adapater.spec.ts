@@ -7,6 +7,12 @@ interface ITypeSut {
   salt: number
 }
 
+jest.mock('bcryptjs', () => ({
+  async hash (): Promise<string> {
+    return 'hash'
+  }
+}))
+
 const makeSut = (): ITypeSut => {
   const salt = 12
   const sut = new BCryptAdapter(salt)
@@ -18,7 +24,7 @@ const makeSut = (): ITypeSut => {
 }
 
 describe('Bcrypt Adapter', () => {
-  it('Should call bcrypt with correct value', async () => {
+  it('Should call bcryptjs with correct value', async () => {
     const { sut, salt } = makeSut()
     const hashSpy = jest.spyOn(bcryptjs, 'hash')
 
@@ -27,5 +33,14 @@ describe('Bcrypt Adapter', () => {
     await sut.encrypt(password)
 
     expect(hashSpy).toHaveBeenLastCalledWith(password, salt)
+  })
+  it('Should return a hash on succes', async () => {
+    const { sut } = makeSut()
+
+    const password = 'valid_password'
+
+    const hash = await sut.encrypt(password)
+
+    expect(hash).toBe('hash')
   })
 })
