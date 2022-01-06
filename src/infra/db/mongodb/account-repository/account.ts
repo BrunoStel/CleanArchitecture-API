@@ -9,9 +9,7 @@ export class AccountMongoRepository implements IAddAccountRepository {
 
     const result = await accountCollection.insertOne(accountData)
 
-    const { insertedId: id } = result
-
-    const accountById = await accountCollection.findOne({ _id: id })
+    const accountById = await accountCollection.findOne({ _id: result.insertedId })
 
     const { _id, ...accountWithoutId } = accountById
 
