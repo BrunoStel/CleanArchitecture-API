@@ -18,13 +18,14 @@ class SignupController implements IController {
     try {
       const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
 
+      const { name, email, password, passwordConfirmation } = httpRequest.body
+
       for (const field of requiredFields) {
         if (!httpRequest.body[field]) {
+          console.log(httpRequest.body)
           return badRequest(new MissinParamError(field))
         }
       }
-
-      const { name, email, password, passwordConfirmation } = httpRequest.body
 
       if (password !== passwordConfirmation) {
         return badRequest(new InvalidParamError('passwordConfirmation is different from password'))
