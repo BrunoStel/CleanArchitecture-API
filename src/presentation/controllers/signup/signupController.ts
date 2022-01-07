@@ -3,12 +3,9 @@ import { MissinParamError, InvalidParamError } from '../../errors/index'
 import { badRequest, ok, serverError } from '../../helpers/http-helper'
 
 class SignupController implements IController {
-  private readonly emailValidator: IEmailValidator
-  private readonly addAccount: IAddAccount
-
   constructor (
-    emailValidator: IEmailValidator,
-    addAccount: IAddAccount
+    private readonly emailValidator: IEmailValidator,
+    private readonly addAccount: IAddAccount
   ) {
     this.emailValidator = emailValidator
     this.addAccount = addAccount
