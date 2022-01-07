@@ -1,4 +1,4 @@
-import { DbAddAccount } from './db-add-account'
+import { DbAddAccountUseCase } from './db-add-account'
 import { IAddAccount, IAddAccountModel, IAccountModel, IEncrypter, IAddAccountRepository } from './db-add-account-Protocols'
 
 interface IStuTypes {
@@ -38,7 +38,7 @@ const makeSut = (): IStuTypes => {
 
   const addAccountRepositoryStub = makeAddAccountRepositoryStub()
 
-  const sut = new DbAddAccount(encryoterStub, addAccountRepositoryStub)
+  const sut = new DbAddAccountUseCase(encryoterStub, addAccountRepositoryStub)
 
   return {
     encryoterStub,
@@ -57,7 +57,7 @@ describe('DbAddAccount UseCase', () => {
       email: 'valid_email',
       password: 'valid_password'
     }
-    await sut.add(accountData)
+    await sut.execute(accountData)
 
     expect(encryptSpy).toHaveBeenCalledWith(accountData.password)
   })
@@ -73,7 +73,7 @@ describe('DbAddAccount UseCase', () => {
       email: 'valid_email',
       password: 'valid_password'
     }
-    const promise = sut.add(accountData)
+    const promise = sut.execute(accountData)
 
     await expect(promise).rejects.toThrow()
   })
@@ -84,7 +84,7 @@ describe('DbAddAccount UseCase', () => {
       email: 'valid_email',
       password: 'valid_password'
     }
-    const account = await sut.add(data)
+    const account = await sut.execute(data)
 
     expect(account).toEqual({
       id: 'valid_id',
@@ -103,7 +103,7 @@ describe('DbAddAccount UseCase', () => {
       password: 'valid_password'
     }
 
-    await sut.add(data)
+    await sut.execute(data)
 
     expect(addSpy).toHaveBeenCalledWith({
       name: 'valid_name',
@@ -123,7 +123,7 @@ describe('DbAddAccount UseCase', () => {
       email: 'valid_email',
       password: 'valid_password'
     }
-    const promise = sut.add(accountData)
+    const promise = sut.execute(accountData)
 
     await expect(promise).rejects.toThrow()
   })
