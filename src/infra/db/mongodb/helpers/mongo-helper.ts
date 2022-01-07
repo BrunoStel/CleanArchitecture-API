@@ -1,5 +1,5 @@
 import { Collection, MongoClient } from 'mongodb'
-import { IAccountModel } from '../../../../domain/models/IAccountModel'
+import { IAccountModel } from '../../../../domain/entities/IAccountModel'
 
 export const MongoHelper = {
   client: null as MongoClient,
