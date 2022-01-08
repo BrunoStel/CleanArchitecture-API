@@ -19,7 +19,6 @@ class SignupController implements IController {
 
       for (const field of requiredFields) {
         if (!httpRequest.body[field]) {
-          console.log(httpRequest.body)
           return badRequest(new MissinParamError(field))
         }
       }
