@@ -172,7 +172,7 @@ describe('signup controller', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect(httpResponse.body).toEqual(new ServerError('error'))
   })
 
   it('should return status 400 if password and passwordConfirmation is different from each other', async () => {
@@ -234,7 +234,7 @@ describe('signup controller', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect(httpResponse.body).toEqual(new ServerError('error'))
   })
 
   it('should return status 200 if valid data is provided', async () => {
