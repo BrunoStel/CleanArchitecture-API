@@ -30,10 +30,30 @@ const makeSut = (): ISut => {
 }
 
 describe('LogControllerDecoretor', () => {
-  it('Should return a HttpResponse with satusCode 200 if the injected class returned a HttpResponse with satusCode 200', async () => {
+  it('Should call injected controller handle ', async () => {
+    const { sut, controllerStub } = makeSut()
+    const handleSpy = jest.spyOn(controllerStub, 'handle')
+
+    const httpRequest: IHttpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email',
+        password: 'any_password',
+        passwordConfirmation: 'any_password'
+      }
+    }
+    await sut.handle(httpRequest)
+    expect(handleSpy).toHaveBeenCalledWith(httpRequest)
+  })
+  it('Should return a HttpResponse with satusCode 200 if the injected controller returns a HttpResponse with satusCode 200', async () => {
     const { sut } = makeSut()
-    const httpRequest = {
-      body: null
+    const httpRequest: IHttpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email',
+        password: 'any_password',
+        passwordConfirmation: 'any_password'
+      }
     }
     const httpReponse = await sut.handle(httpRequest)
 
