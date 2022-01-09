@@ -4,7 +4,7 @@ import { IController, IHttpRequest, IHttpResponse } from '../../presentation/pro
 import { LogControllerDecoretor } from './log'
 
 class LogErrorRepositoryStub implements ILogErrorRepository {
-  async log (stackError: string): Promise<void> {
+  async logError (stackError: string): Promise<void> {
   }
 }
 
@@ -87,7 +87,7 @@ describe('LogControllerDecoretor', () => {
 
     jest.spyOn(controllerStub, 'handle').mockReturnValueOnce(new Promise(resolve => resolve(error)))
 
-    const logSpy = jest.spyOn(logErrorRepositoryStub, 'log')
+    const logSpy = jest.spyOn(logErrorRepositoryStub, 'logError')
 
     const httpRequest: IHttpRequest = {
       body: {
