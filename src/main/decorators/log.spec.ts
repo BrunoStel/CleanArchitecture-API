@@ -5,7 +5,9 @@ class ControllerStub implements IController {
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
     const httReponse = {
       statusCode: 200,
-      body: ''
+      body: {
+        name: 'any_name'
+      }
     }
     return httReponse
   }
@@ -58,5 +60,8 @@ describe('LogControllerDecoretor', () => {
     const httpReponse = await sut.handle(httpRequest)
 
     expect(httpReponse.statusCode).toBe(200)
+    expect(httpReponse.body).toEqual({
+      name: 'any_name'
+    })
   })
 })
