@@ -12,8 +12,9 @@ export const MongoHelper = {
     await this.client.close()
   },
 
-  getConnection (name: string): Collection {
-    return this.client.db().collection(name)
+  async getCollection (name: string): Promise<Collection> {
+    const collection = await this.client.db().collection(name)
+    return collection
   },
 
   map (collectionById: any): any {
@@ -23,5 +24,4 @@ export const MongoHelper = {
 
     return collection
   }
-
 }
