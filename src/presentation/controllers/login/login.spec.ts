@@ -1,3 +1,5 @@
+import { IAuthentication } from '../../../domain/usecases/protocols/IAuthentication'
+import { serverError } from '../../helpers/http-helper'
 import { IEmailValidator, IHttpRequest } from '../../protocols'
 import { LoginController } from './login'
 
@@ -7,22 +9,37 @@ class EmailValidatorStub implements IEmailValidator {
   }
 }
 
+class AuthenticationStub implements IAuthentication {
+  async auth (email: string, password: string): Promise<string> {
+    return 'any_token'
+  }
+}
+
 interface ISut {
   sut: LoginController
   emailValidatorStub: EmailValidatorStub
+  authenticationStub: AuthenticationStub
 }
 
 const makeEmailValidatorStub = (): EmailValidatorStub => {
   return new EmailValidatorStub()
 }
+
+const makeAuthenticationStub = (): AuthenticationStub => {
+  return new AuthenticationStub()
+}
+
 const makeSut = (): ISut => {
   const emailValidatorStub = makeEmailValidatorStub()
 
-  const sut = new LoginController(emailValidatorStub)
+  const authenticationStub = makeAuthenticationStub()
+
+  const sut = new LoginController(emailValidatorStub, authenticationStub)
 
   return {
     sut,
-    emailValidatorStub
+    emailValidatorStub,
+    authenticationStub
   }
 }
 
@@ -102,5 +119,16 @@ describe('Login Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse).toEqual(serverError(new Error()))
+  })
+  it('Should call Authentication with correct values', async () => {
+    const { sut, authenticationStub } = makeSut()
+    const httpRequest = makehttpRequest()
+
+    const authSpy = jest.spyOn(authenticationStub, 'auth')
+
+    await sut.handle(httpRequest)
+
+    expect(authSpy).toHaveBeenCalledWith(httpRequest.body.email, httpRequest.body.password)
   })
 })
