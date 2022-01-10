@@ -21,7 +21,7 @@ export class LoginController implements IController {
     const isValid = this.emailValidator.isValid(httpRequest.body.email)
 
     if (!isValid) {
-      return badRequest(new InvalidParamError(httpRequest.body.emai))
+      return badRequest(new InvalidParamError(httpRequest.body.email))
     }
 
     return ok('any_data')
