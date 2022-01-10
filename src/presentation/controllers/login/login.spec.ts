@@ -1,5 +1,5 @@
 import { IAuthentication } from '../../../domain/usecases/protocols/IAuthentication'
-import { serverError, unauthorized } from '../../helpers/http-helper'
+import { ok, serverError, unauthorized } from '../../helpers/http-helper'
 import { IEmailValidator, IHttpRequest } from '../../protocols'
 import { LoginController } from './login'
 
@@ -109,6 +109,7 @@ describe('Login Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse.statusCode).toBe(200)
+    expect(httpResponse).toEqual(ok({ acessToken: 'any_token' }))
   })
   it('Should return 500 if EmailValidator throws', async () => {
     const { sut, emailValidatorStub } = makeSut()
