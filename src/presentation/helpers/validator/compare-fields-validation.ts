@@ -11,5 +11,6 @@ export class CompareFieldsValidation implements IValidation {
     if (input[this.fieldName] !== input[this.fieldToComparename]) {
       return new InvalidParamError(this.fieldToComparename)
     }
+    return null
   }
 }

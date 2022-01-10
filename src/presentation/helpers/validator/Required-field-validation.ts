@@ -10,5 +10,6 @@ export class RequiredFieldValidation implements IValidation {
     if (!input[this.fieldName]) {
       return new MissinParamError(this.fieldName)
     }
+    return null
   }
 }
