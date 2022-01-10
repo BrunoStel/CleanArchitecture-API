@@ -78,4 +78,20 @@ describe('Login Controller', () => {
 
     expect(isValid).toHaveBeenCalledWith('any_email@mail.com')
   })
+  it('Should return 400 if invalid email is passed', async () => {
+    const { sut, emailValidatorStub } = makeSut()
+    const httpRequest = {
+      body: {
+        email: 'incorrect_email@mail.com',
+        password: 'any_password'
+      }
+    }
+
+    jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
+
+    const httpResponse = await sut.handle(httpRequest)
+
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body.name).toEqual('InvalidParamERROR: incorrect_email@mail.com')
+  })
 })
