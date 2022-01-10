@@ -120,24 +120,6 @@ describe('signup controller', () => {
     expect(httpResponse.body).toEqual(new ServerError('error'))
   })
 
-  it('should return status 400 if password and passwordConfirmation is different from each other', async () => {
-    const { sut } = makeSut()
-
-    const httpRequest = {
-      body: {
-        email: 'any_email@any.com',
-        name: 'any_name',
-        password: 'any_password',
-        passwordConfirmation: 'any_password_diff'
-      }
-    }
-
-    const httpResponse = await sut.handle(httpRequest)
-
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirmation is different from password'))
-  })
-
   it('should call AddAccount with correct values', async () => {
     const { sut, addAccountStub } = makeSut()
     const executeSpy = jest.spyOn(addAccountStub, 'execute')
