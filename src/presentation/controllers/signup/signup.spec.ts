@@ -1,11 +1,12 @@
 import { MissinParamError, InvalidParamError, ServerError } from '../../errors/index'
-import { IEmailValidator, IAccountModel, IAddAccount, IAddAccountModel } from './signupProtocols'
+import { IEmailValidator, IAccountModel, IAddAccount, IAddAccountModel, IValidation } from './signupProtocols'
 import { SignupController } from './signupController'
 
 interface ISutTypes {
   sut: SignupController
   emailValidatorStub: IEmailValidator
   addAccountStub: IAddAccount
+  validationStub: IValidation
 }
 
 const makeEmailValidator = (): IEmailValidator => {
@@ -18,6 +19,14 @@ const makeEmailValidator = (): IEmailValidator => {
   return new EmailValidatorStub()
 }
 
+const makeValidationStub = (): IValidation => {
+  class ValidationStub implements IValidation {
+    validate (input: any): Error {
+      return null
+    }
+  }
+  return new ValidationStub()
+}
 const makeAddAccount = (): IAddAccount => {
   class AddAccountStub implements IAddAccount {
     async execute (account: IAddAccountModel): Promise<IAccountModel> {
@@ -39,11 +48,14 @@ const makeSut = (): ISutTypes => {
 
   const addAccountStub = makeAddAccount()
 
-  const sut = new SignupController(emailValidatorStub, addAccountStub)
+  const validationStub = makeValidationStub()
+
+  const sut = new SignupController(emailValidatorStub, addAccountStub, validationStub)
   return {
     sut,
     emailValidatorStub,
-    addAccountStub
+    addAccountStub,
+    validationStub
   }
 }
 
@@ -195,7 +207,7 @@ describe('signup controller', () => {
 
   it('should call AddAccount with correct values', async () => {
     const { sut, addAccountStub } = makeSut()
-    const addSpy = jest.spyOn(addAccountStub, 'execute')
+    const executeSpy = jest.spyOn(addAccountStub, 'execute')
 
     const httpRequest = {
       body: {
@@ -208,7 +220,7 @@ describe('signup controller', () => {
 
     await sut.handle(httpRequest)
 
-    expect(addSpy).toHaveBeenCalledWith({
+    expect(executeSpy).toHaveBeenCalledWith({
       email: 'any_email@any.com',
       name: 'any_name',
       password: 'any_password'
@@ -258,5 +270,22 @@ describe('signup controller', () => {
       name: 'valid_name',
       password: 'valid_password'
     })
+  })
+  it('should call Validation with correct values', async () => {
+    const { sut, validationStub } = makeSut()
+    const validateSpy = jest.spyOn(validationStub, 'validate')
+
+    const httpRequest = {
+      body: {
+        email: 'any_email@any.com',
+        name: 'any_name',
+        password: 'any_password',
+        passwordConfirmation: 'any_password'
+      }
+    }
+
+    await sut.handle(httpRequest)
+
+    expect(validateSpy).toHaveBeenCalledWith(httpRequest.body)
   })
 })
