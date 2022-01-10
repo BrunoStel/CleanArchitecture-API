@@ -1,5 +1,5 @@
 import { IAuthentication } from '../../../domain/usecases/protocols/IAuthentication'
-import { serverError } from '../../helpers/http-helper'
+import { serverError, unauthorized } from '../../helpers/http-helper'
 import { IEmailValidator, IHttpRequest } from '../../protocols'
 import { LoginController } from './login'
 
@@ -141,5 +141,16 @@ describe('Login Controller', () => {
 
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+  it('Should return 401 if invalid credentials are provided', async () => {
+    const { sut, authenticationStub } = makeSut()
+    const httpRequest = makehttpRequest()
+
+    jest.spyOn(authenticationStub, 'auth').mockImplementationOnce(null)
+
+    const httpResponse = await sut.handle(httpRequest)
+
+    expect(httpResponse.statusCode).toBe(401)
+    expect(httpResponse).toEqual(unauthorized())
   })
 })
