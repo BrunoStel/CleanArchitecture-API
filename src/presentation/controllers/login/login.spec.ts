@@ -35,4 +35,16 @@ describe('Login Controller', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body.name).toEqual('MissinParamERROR: password')
   })
+  it('Should return 200 if valid data is provided', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        email: 'any_email@mail.com',
+        password: 'any_password'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+
+    expect(httpResponse.statusCode).toBe(200)
+  })
 })
