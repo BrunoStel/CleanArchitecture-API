@@ -1,5 +1,5 @@
 import { IHttpRequest, IHttpResponse, IController, IEmailValidator, IAddAccount, IValidation } from '../../controllers/signup/signupProtocols'
-import { MissinParamError, InvalidParamError } from '../../errors/index'
+import { InvalidParamError } from '../../errors/index'
 import { badRequest, ok, serverError } from '../../helpers/http-helper'
 
 class SignupController implements IController {
@@ -21,15 +21,7 @@ class SignupController implements IController {
         return badRequest(error)
       }
 
-      const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
-
       const { name, email, password, passwordConfirmation } = httpRequest.body
-
-      for (const field of requiredFields) {
-        if (!httpRequest.body[field]) {
-          return badRequest(new MissinParamError(field))
-        }
-      }
 
       if (password !== passwordConfirmation) {
         return badRequest(new InvalidParamError('passwordConfirmation is different from password'))
