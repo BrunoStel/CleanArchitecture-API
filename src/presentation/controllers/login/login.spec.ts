@@ -1,12 +1,28 @@
+import { IEmailValidator } from '../../protocols'
 import { LoginController } from './login'
+
+class EmailValidatorStub implements IEmailValidator {
+  isValid (email: string): boolean {
+    return true
+  }
+}
 
 interface ISut {
   sut: LoginController
+  emailValidatorStub: EmailValidatorStub
+}
+
+const makeEmailValidatorStub = (): EmailValidatorStub => {
+  return new EmailValidatorStub()
 }
 const makeSut = (): ISut => {
-  const sut = new LoginController()
+  const emailValidatorStub = makeEmailValidatorStub()
+
+  const sut = new LoginController(emailValidatorStub)
+
   return {
-    sut
+    sut,
+    emailValidatorStub
   }
 }
 
@@ -47,16 +63,19 @@ describe('Login Controller', () => {
 
     expect(httpResponse.statusCode).toBe(200)
   })
-  it('Should call EmailValidator with correct', async () => {
-    const { sut } = makeSut()
+  it('Should call EmailValidator with correct email', async () => {
+    const { sut, emailValidatorStub } = makeSut()
     const httpRequest = {
       body: {
         email: 'any_email@mail.com',
         password: 'any_password'
       }
     }
-    const httpResponse = await sut.handle(httpRequest)
 
-    expect(httpResponse.statusCode).toBe(200)
+    const isValid = jest.spyOn(emailValidatorStub, 'isValid')
+
+    await sut.handle(httpRequest)
+
+    expect(isValid).toHaveBeenCalledWith('any_email@mail.com')
   })
 })
