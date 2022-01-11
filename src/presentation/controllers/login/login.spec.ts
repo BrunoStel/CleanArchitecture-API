@@ -104,7 +104,7 @@ describe('Login Controller', () => {
 
     expect(validateSpy).toHaveBeenCalledWith(httpRequest.body)
   })
-  it('Should return 400 if validations fails', async () => {
+  it('Should return 400 if Validation returns an error', async () => {
     const { sut, validationStub } = makeSut()
     const httpRequest = makehttpRequest()
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissinParamError('any_error'))

@@ -1,5 +1,5 @@
 import { ServerError } from '../../errors/index'
-import { IAccountModel, IAddAccount, IAddAccountModel, IValidation } from './signupProtocols'
+import { IAccountModel, IAddAccount, IAddAccountModel, IHttpRequest, IValidation } from './signupProtocols'
 import { SignupController } from './signupController'
 import { badRequest } from '../../helpers/http-helper'
 
@@ -46,19 +46,24 @@ const makeSut = (): ISutTypes => {
   }
 }
 
+const makeHttpRequest = (): IHttpRequest => {
+  const httpRequest = {
+    body: {
+      email: 'any_email@any.com',
+      name: 'any_name',
+      password: 'any_password',
+      passwordConfirmation: 'any_password'
+    }
+  }
+  return httpRequest
+}
+
 describe('signup controller', () => {
   it('should call AddAccount with correct values', async () => {
     const { sut, addAccountStub } = makeSut()
     const executeSpy = jest.spyOn(addAccountStub, 'execute')
 
-    const httpRequest = {
-      body: {
-        email: 'any_email@any.com',
-        name: 'any_name',
-        password: 'any_password',
-        passwordConfirmation: 'any_password'
-      }
-    }
+    const httpRequest = makeHttpRequest()
 
     await sut.handle(httpRequest)
 
@@ -76,14 +81,7 @@ describe('signup controller', () => {
       throw new Error()
     })
 
-    const httpRequest = {
-      body: {
-        email: 'any_email@any.com',
-        name: 'any_name',
-        password: 'any_password',
-        passwordConfirmation: 'any_password'
-      }
-    }
+    const httpRequest = makeHttpRequest()
 
     const httpResponse = await sut.handle(httpRequest)
 
@@ -94,14 +92,7 @@ describe('signup controller', () => {
   it('should return status 200 if valid data is provided', async () => {
     const { sut } = makeSut()
 
-    const httpRequest = {
-      body: {
-        email: 'valid_email@mail.com',
-        name: 'valid_name',
-        password: 'valid_password',
-        passwordConfirmation: 'valid_password'
-      }
-    }
+    const httpRequest = makeHttpRequest()
 
     const httpResponse = await sut.handle(httpRequest)
 
@@ -117,14 +108,7 @@ describe('signup controller', () => {
     const { sut, validationStub } = makeSut()
     const validateSpy = jest.spyOn(validationStub, 'validate')
 
-    const httpRequest = {
-      body: {
-        email: 'any_email@any.com',
-        name: 'any_name',
-        password: 'any_password',
-        passwordConfirmation: 'any_password'
-      }
-    }
+    const httpRequest = makeHttpRequest()
 
     await sut.handle(httpRequest)
 
@@ -133,14 +117,7 @@ describe('signup controller', () => {
   it('should return status 400 if Validation returns an error', async () => {
     const { sut, validationStub } = makeSut()
 
-    const httpRequest = {
-      body: {
-        email: 'valid_email@mail.com',
-        name: 'valid_name',
-        password: 'valid_password',
-        passwordConfirmation: 'valid_password'
-      }
-    }
+    const httpRequest = makeHttpRequest()
 
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error())
 
