@@ -47,16 +47,22 @@ const makeSut = (): IStuTypes => {
   }
 }
 
+const makeAccountData = (): IAddAccountModel => {
+  const accountData = {
+    name: 'valid_name',
+    email: 'valid_email',
+    password: 'valid_password'
+  }
+  return accountData
+}
+
 describe('DbAddAccount UseCase', () => {
   it('Should call Encrypter with correct password ', async () => {
     const { sut, encryoterStub } = makeSut()
 
     const encryptSpy = jest.spyOn(encryoterStub, 'encrypt')
-    const accountData = {
-      name: 'valid_name',
-      email: 'valid_email',
-      password: 'valid_password'
-    }
+    const accountData = makeAccountData()
+
     await sut.execute(accountData)
 
     expect(encryptSpy).toHaveBeenCalledWith(accountData.password)
@@ -68,23 +74,17 @@ describe('DbAddAccount UseCase', () => {
       new Promise((resolve, reject) => reject(new Error()))
     )
 
-    const accountData = {
-      name: 'valid_name',
-      email: 'valid_email',
-      password: 'valid_password'
-    }
+    const accountData = makeAccountData()
+
     const promise = sut.execute(accountData)
 
     await expect(promise).rejects.toThrow()
   })
   it('Should return an Account on succes', async () => {
     const { sut } = makeSut()
-    const data = {
-      name: 'valid_name',
-      email: 'valid_email',
-      password: 'valid_password'
-    }
-    const account = await sut.execute(data)
+    const accountData = makeAccountData()
+
+    const account = await sut.execute(accountData)
 
     expect(account).toEqual({
       id: 'valid_id',
@@ -97,13 +97,9 @@ describe('DbAddAccount UseCase', () => {
     const { sut, addAccountRepositoryStub } = makeSut()
     const addSpy = jest.spyOn(addAccountRepositoryStub, 'add')
 
-    const data = {
-      name: 'valid_name',
-      email: 'valid_email',
-      password: 'valid_password'
-    }
+    const accountData = makeAccountData()
 
-    await sut.execute(data)
+    await sut.execute(accountData)
 
     expect(addSpy).toHaveBeenCalledWith({
       name: 'valid_name',
@@ -118,11 +114,8 @@ describe('DbAddAccount UseCase', () => {
       new Promise((resolve, reject) => reject(new Error()))
     )
 
-    const accountData = {
-      name: 'valid_name',
-      email: 'valid_email',
-      password: 'valid_password'
-    }
+    const accountData = makeAccountData()
+
     const promise = sut.execute(accountData)
 
     await expect(promise).rejects.toThrow()
