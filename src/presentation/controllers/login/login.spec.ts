@@ -1,4 +1,4 @@
-import { IAuthentication } from '../../../domain/usecases/protocols/IAuthentication'
+import { IAuthentication, IAuthenticationModel } from '../../../domain/usecases/protocols/IAuthentication'
 import { MissinParamError } from '../../errors'
 import { ok, serverError, unauthorized } from '../../helpers/http/http-helper'
 import { IHttpRequest, IValidation } from '../../protocols'
@@ -11,7 +11,7 @@ class ValidationStub implements IValidation {
 }
 
 class AuthenticationStub implements IAuthentication {
-  async auth (email: string, password: string): Promise<string> {
+  async auth (authenticationModel: IAuthenticationModel): Promise<string> {
     return 'any_token'
   }
 }
@@ -70,7 +70,7 @@ describe('Login Controller', () => {
 
     await sut.handle(httpRequest)
 
-    expect(authSpy).toHaveBeenCalledWith(httpRequest.body.email, httpRequest.body.password)
+    expect(authSpy).toHaveBeenCalledWith(httpRequest.body)
   })
   it('Should return 500 if Authentication throws', async () => {
     const { sut, authenticationStub } = makeSut()
