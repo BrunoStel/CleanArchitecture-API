@@ -94,6 +94,16 @@ describe('Login Controller', () => {
     expect(httpResponse.statusCode).toBe(401)
     expect(httpResponse).toEqual(unauthorized())
   })
+  it('Should call Validation with correct values', async () => {
+    const { sut, validationStub } = makeSut()
+    const httpRequest = makehttpRequest()
+
+    const validateSpy = jest.spyOn(validationStub, 'validate')
+
+    await sut.handle(httpRequest)
+
+    expect(validateSpy).toHaveBeenCalledWith(httpRequest.body)
+  })
   it('Should return 400 if validations fails', async () => {
     const { sut, validationStub } = makeSut()
     const httpRequest = makehttpRequest()
