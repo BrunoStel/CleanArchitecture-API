@@ -1,6 +1,6 @@
 import { IAuthentication } from '../../../domain/usecases/protocols/IAuthentication'
 import { MissinParamError } from '../../errors'
-import { ok, serverError, unauthorized } from '../../helpers/http-helper'
+import { ok, serverError, unauthorized } from '../../helpers/http/http-helper'
 import { IHttpRequest, IValidation } from '../../protocols'
 import { LoginController } from './login'
 

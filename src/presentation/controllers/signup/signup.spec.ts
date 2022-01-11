@@ -1,7 +1,7 @@
 import { ServerError } from '../../errors/index'
 import { IAccountModel, IAddAccount, IAddAccountModel, IHttpRequest, IValidation } from './signupProtocols'
 import { SignupController } from './signupController'
-import { badRequest } from '../../helpers/http-helper'
+import { badRequest } from '../../helpers/http/http-helper'
 
 interface ISutTypes {
   sut: SignupController

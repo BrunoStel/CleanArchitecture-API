@@ -1,5 +1,5 @@
 import { IAuthentication } from '../../../domain/usecases/protocols/IAuthentication'
-import { badRequest, ok, serverError, unauthorized } from '../../helpers/http-helper'
+import { badRequest, ok, serverError, unauthorized } from '../../helpers/http/http-helper'
 import { IController, IHttpRequest, IHttpResponse, IValidation } from '../../protocols'
 
 export class LoginController implements IController {
