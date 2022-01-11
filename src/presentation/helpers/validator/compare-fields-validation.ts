@@ -1,5 +1,5 @@
 import { InvalidParamError } from '../../errors'
-import { IValidation } from './IValidationProtocol'
+import { IValidation } from '../../protocols/IValidationProtocol'
 
 export class CompareFieldsValidation implements IValidation {
   constructor (private readonly fieldName: string, private readonly fieldToComparename: string) {

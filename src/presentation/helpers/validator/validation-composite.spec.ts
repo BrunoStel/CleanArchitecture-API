@@ -1,5 +1,5 @@
 import { InvalidParamError, MissinParamError } from '../../errors'
-import { IValidation } from './IValidationProtocol'
+import { IValidation } from '../../protocols/IValidationProtocol'
 import { ValidationComposite } from './Validation-composite'
 
 interface ISutTypes {

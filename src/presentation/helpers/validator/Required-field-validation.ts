@@ -1,5 +1,5 @@
 import { MissinParamError } from '../../errors'
-import { IValidation } from './IValidationProtocol'
+import { IValidation } from '../../protocols/IValidationProtocol'
 
 export class RequiredFieldValidation implements IValidation {
   constructor (private readonly fieldName: string) {
