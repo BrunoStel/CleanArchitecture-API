@@ -1,5 +1,5 @@
-import { IAccountModel } from '../add-account/db-add-account-Protocols'
-import { IloadAccountByEmailRepository } from '../protocols/IloadAccountByEmailRepository'
+import { IAccountModel } from '../db-add-account-Protocols'
+import { IloadAccountByEmailRepository } from '../../protocols/IloadAccountByEmailRepository'
 import { DbAuthentication } from './db-authentication'
 
 class LoadAccountByEmailRepositoryStub implements IloadAccountByEmailRepository {
@@ -38,5 +38,16 @@ describe('DbAuthenticationUseCase', () => {
       password: 'any_password'
     })
     expect(loadSpy).toHaveBeenCalledWith('any_email@mail.com')
+  })
+  it('Should throw if LoadAccountByEmailRepository throws', async () => {
+    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
+
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockReturnValueOnce(
+      new Promise((resolve, reject) => reject(new Error()))
+    )
+
+    const promise = sut.execute({ email: 'any_email@mail.com', password: 'any_password' })
+
+    await expect(promise).rejects.toThrow()
   })
 })

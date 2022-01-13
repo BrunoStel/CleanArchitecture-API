@@ -36,7 +36,6 @@
     "eslint-plugin-standard": "^5.0.0",
     "git-commit-msg-linter": "^3.2.8",
     "husky": "^7.0.4",
-    "jest": "^27.4.5",
     "lint-staged": "^12.1.5",
     "sucrase": "^3.20.3",
     "supertest": "^6.1.6",
@@ -48,6 +47,7 @@
     "bcryptjs": "^2.4.3",
     "express": "^4.17.2",
     "fast-glob": "^3.2.7",
+    "jest": "^27.4.7",
     "mongodb": "^4.2.2",
     "validator": "^13.7.0"
   }

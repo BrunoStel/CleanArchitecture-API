@@ -13,7 +13,7 @@ const makeSut = (): ISutTypes => {
 }
 
 describe('Compare field validation', () => {
-  it('should throw new InvalidParamError validation fails', () => {
+  it('should throw new InvalidParamError if validation fails', () => {
     const { sut } = makeSut()
 
     const isValid = sut.validate({ password: 'password', passwordConfirmation: 'Diffpassword' })
