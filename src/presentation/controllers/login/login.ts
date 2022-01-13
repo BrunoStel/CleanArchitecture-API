@@ -19,7 +19,7 @@ export class LoginController implements IController {
         return badRequest(error)
       }
 
-      const token = await this.authentication.auth(httpRequest.body)
+      const token = await this.authentication.execute(httpRequest.body)
       if (!token) {
         return unauthorized()
       }

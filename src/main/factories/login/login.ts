@@ -1,4 +1,4 @@
-import { IAuthentication } from '../../../domain/usecases/protocols/IAuthentication'
+import { IAuthentication, IAuthenticationModel } from '../../../domain/usecases/protocols/IAuthentication'
 import { LogMongoRepository } from '../../../infra/db/mongodb/log-repository/log'
 import { LoginController } from '../../../presentation/controllers/login/login'
 import { IController } from '../../../presentation/protocols'
@@ -6,7 +6,7 @@ import { LogControllerDecoretor } from '../../decorators/log'
 import { makeLoginValidation } from './login-validation'
 
 class AuthenticationStub implements IAuthentication {
-  async auth (email: string, password: string): Promise<string> {
+  async execute (authenticationModel: IAuthenticationModel): Promise<string> {
     return 'any_token'
   }
 }

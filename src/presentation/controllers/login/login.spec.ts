@@ -11,7 +11,7 @@ class ValidationStub implements IValidation {
 }
 
 class AuthenticationStub implements IAuthentication {
-  async auth (authenticationModel: IAuthenticationModel): Promise<string> {
+  async execute (authenticationModel: IAuthenticationModel): Promise<string> {
     return 'any_token'
   }
 }
@@ -66,7 +66,7 @@ describe('Login Controller', () => {
     const { sut, authenticationStub } = makeSut()
     const httpRequest = makehttpRequest()
 
-    const authSpy = jest.spyOn(authenticationStub, 'auth')
+    const authSpy = jest.spyOn(authenticationStub, 'execute')
 
     await sut.handle(httpRequest)
 
@@ -76,7 +76,7 @@ describe('Login Controller', () => {
     const { sut, authenticationStub } = makeSut()
     const httpRequest = makehttpRequest()
 
-    jest.spyOn(authenticationStub, 'auth').mockImplementationOnce(() => { throw new Error() })
+    jest.spyOn(authenticationStub, 'execute').mockImplementationOnce(() => { throw new Error() })
 
     const httpResponse = await sut.handle(httpRequest)
 
@@ -87,7 +87,7 @@ describe('Login Controller', () => {
     const { sut, authenticationStub } = makeSut()
     const httpRequest = makehttpRequest()
 
-    jest.spyOn(authenticationStub, 'auth').mockImplementationOnce(null)
+    jest.spyOn(authenticationStub, 'execute').mockImplementationOnce(null)
 
     const httpResponse = await sut.handle(httpRequest)
 
