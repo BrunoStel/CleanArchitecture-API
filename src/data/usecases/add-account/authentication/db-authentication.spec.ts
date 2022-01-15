@@ -55,16 +55,22 @@ const makeSut = (): ISut => {
   }
 }
 
+interface IInput {
+  email: string
+  password: string
+}
+
+const makeInput = (): IInput => {
+  return { email: 'any_email@mail.com', password: 'any_password' }
+}
+
 describe('DbAuthenticationUseCase', () => {
   it('Should call LoadAccountByEmailRepository with correct email', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
 
     const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'load')
 
-    await sut.execute({
-      email: 'any_email@mail.com',
-      password: 'any_password'
-    })
+    await sut.execute(makeInput())
     expect(loadSpy).toHaveBeenCalledWith('any_email@mail.com')
   })
   it('Should throw if LoadAccountByEmailRepository throws', async () => {
@@ -74,7 +80,7 @@ describe('DbAuthenticationUseCase', () => {
       new Promise((resolve, reject) => reject(new Error()))
     )
 
-    const promise = sut.execute({ email: 'any_email@mail.com', password: 'any_password' })
+    const promise = sut.execute(makeInput())
 
     await expect(promise).rejects.toThrow()
   })
@@ -83,10 +89,7 @@ describe('DbAuthenticationUseCase', () => {
 
     jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockReturnValueOnce(null)
 
-    const acessToken = await sut.execute({
-      email: 'any_email@mail.com',
-      password: 'any_password'
-    })
+    const acessToken = await sut.execute(makeInput())
     expect(acessToken).toBeNull()
   })
   it('Should call HashCompare  with correct password', async () => {
@@ -94,10 +97,7 @@ describe('DbAuthenticationUseCase', () => {
 
     const compareSpy = jest.spyOn(hashCompareStub, 'compare')
 
-    await sut.execute({
-      email: 'any_email@mail.com',
-      password: 'any_password'
-    })
+    await sut.execute(makeInput())
 
     expect(compareSpy).toHaveBeenCalledWith('any_password', 'hashed_password')
   })
@@ -108,7 +108,7 @@ describe('DbAuthenticationUseCase', () => {
       new Promise((resolve, reject) => reject(new Error()))
     )
 
-    const promise = sut.execute({ email: 'any_email@mail.com', password: 'any_password' })
+    const promise = sut.execute(makeInput())
 
     await expect(promise).rejects.toThrow()
   })
@@ -117,10 +117,7 @@ describe('DbAuthenticationUseCase', () => {
 
     jest.spyOn(hashCompareStub, 'compare').mockReturnValueOnce(null)
 
-    const acessToken = await sut.execute({
-      email: 'any_email@mail.com',
-      password: 'any_password'
-    })
+    const acessToken = await sut.execute(makeInput())
     expect(acessToken).toBeNull()
   })
   it('Should call TokenGenerator if HashCompare returns true', async () => {
@@ -128,23 +125,18 @@ describe('DbAuthenticationUseCase', () => {
 
     const generateSpy = jest.spyOn(tokenGeneratorStub, 'generate')
 
-    await sut.execute({ email: 'any_email@mail.com', password: 'any_password' })
+    await sut.execute(makeInput())
 
     expect(generateSpy).toHaveBeenCalled()
   })
   it('Should call TokenGenerator  with user id', async () => {
-    const { sut, tokenGeneratorStub, loadAccountByEmailRepositoryStub } = makeSut()
-
-    const { id } = await loadAccountByEmailRepositoryStub.load('any_email')
+    const { sut, tokenGeneratorStub } = makeSut()
 
     const generateSpy = jest.spyOn(tokenGeneratorStub, 'generate')
 
-    await sut.execute({
-      email: 'any_email@mail.com',
-      password: 'any_password'
-    })
+    await sut.execute(makeInput())
 
-    expect(generateSpy).toHaveBeenCalledWith(id)
+    expect(generateSpy).toHaveBeenCalledWith('any_id')
   })
   it('Should throw if TokenGenerator throws', async () => {
     const { sut, tokenGeneratorStub } = makeSut()
@@ -153,25 +145,18 @@ describe('DbAuthenticationUseCase', () => {
       new Promise((resolve, reject) => reject(new Error()))
     )
 
-    const promise = sut.execute({ email: 'any_email@mail.com', password: 'any_password' })
+    const promise = sut.execute(makeInput())
 
     await expect(promise).rejects.toThrow()
   })
   it('Should call UpdateAccessTokenRepository with correct acessToken and id', async () => {
-    const { sut, loadAccountByEmailRepositoryStub, updateAccessTokenRepositoryStub, tokenGeneratorStub } = makeSut()
-
-    const { id } = await loadAccountByEmailRepositoryStub.load('any_email@mail.com')
-
-    const acessToken = await tokenGeneratorStub.generate(id)
+    const { sut, updateAccessTokenRepositoryStub } = makeSut()
 
     const loadSpy = jest.spyOn(updateAccessTokenRepositoryStub, 'updateToken')
 
-    await sut.execute({
-      email: 'any_email@mail.com',
-      password: 'any_password'
-    })
+    await sut.execute(makeInput())
 
-    expect(loadSpy).toHaveBeenCalledWith(id, acessToken)
+    expect(loadSpy).toHaveBeenCalledWith('any_id', 'any_token')
   })
   it('Should throw if UpdateAccessTokenRepository throws', async () => {
     const { sut, updateAccessTokenRepositoryStub } = makeSut()
@@ -180,15 +165,15 @@ describe('DbAuthenticationUseCase', () => {
       new Promise((resolve, reject) => reject(new Error()))
     )
 
-    const promise = sut.execute({ email: 'any_email@mail.com', password: 'any_password' })
+    const promise = sut.execute(makeInput())
 
     await expect(promise).rejects.toThrow()
   })
   it('Should return an acessToken on succes', async () => {
     const { sut } = makeSut()
 
-    const acessToken = await sut.execute({ email: 'any_email@mail.com', password: 'any_password' })
+    const acessToken = await sut.execute(makeInput())
 
-    await expect(acessToken).toBe('any_token')
+    expect(acessToken).toBe('any_token')
   })
 })
