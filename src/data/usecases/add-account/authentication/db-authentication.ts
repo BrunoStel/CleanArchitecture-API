@@ -18,6 +18,9 @@ export class DbAuthentication implements IAuthentication {
       return null
     }
 
-    await this.hashCompare.compare(authenticationModel.password, account.password)
+    const passwordValidation = await this.hashCompare.compare(authenticationModel.password, account.password)
+    if (!passwordValidation) {
+      return null
+    }
   }
 }
