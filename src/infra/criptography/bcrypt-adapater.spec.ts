@@ -1,9 +1,9 @@
-import { IEncrypter } from '../../data/protocols/IEncrypterProtocols'
+import { IHasher } from '../../data/protocols/criptography/IHasherProtocols'
 import { BCryptAdapter } from './bcrypt-adapter'
 import bcryptjs from 'bcryptjs'
 
 interface ITypeSut {
-  sut: IEncrypter
+  sut: IHasher
   salt: number
 }
 
@@ -30,7 +30,7 @@ describe('Bcrypt Adapter', () => {
 
     const password = 'valid_password'
 
-    await sut.encrypt(password)
+    await sut.hash(password)
 
     expect(hashSpy).toHaveBeenLastCalledWith(password, salt)
   })
@@ -39,19 +39,19 @@ describe('Bcrypt Adapter', () => {
 
     const password = 'valid_password'
 
-    const hash = await sut.encrypt(password)
+    const hash = await sut.hash(password)
 
     expect(hash).toBe('hash')
   })
   it('Should throws if bcryptjs throws', async () => {
     const { sut } = makeSut()
 
-    jest.spyOn(sut, 'encrypt').mockResolvedValueOnce(
+    jest.spyOn(sut, 'hash').mockResolvedValueOnce(
       new Promise((resolve, reject) => reject(new Error()))
     )
 
     const password = 'valid_password'
-    const promise = sut.encrypt(password)
+    const promise = sut.hash(password)
 
     await expect(promise).rejects.toThrow()
   })
