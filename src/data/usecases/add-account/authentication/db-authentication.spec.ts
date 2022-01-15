@@ -143,7 +143,7 @@ describe('DbAuthenticationUseCase', () => {
 
     await expect(promise).rejects.toThrow()
   })
-  it('Should call updateAccessTokenRepository with correct acessToken and id', async () => {
+  it('Should call UpdateAccessTokenRepository with correct acessToken and id', async () => {
     const { sut, loadAccountByEmailRepositoryStub, updateAccessTokenRepositoryStub, tokenGeneratorStub } = makeSut()
 
     const { id } = await loadAccountByEmailRepositoryStub.load('any_email@mail.com')
@@ -158,5 +158,16 @@ describe('DbAuthenticationUseCase', () => {
     })
 
     expect(loadSpy).toHaveBeenCalledWith(id, acessToken)
+  })
+  it('Should throw if updateAccessTokenRepository throws', async () => {
+    const { sut, updateAccessTokenRepositoryStub } = makeSut()
+
+    jest.spyOn(updateAccessTokenRepositoryStub, 'updateToken').mockReturnValueOnce(
+      new Promise((resolve, reject) => reject(new Error()))
+    )
+
+    const promise = sut.execute({ email: 'any_email@mail.com', password: 'any_password' })
+
+    await expect(promise).rejects.toThrow()
   })
 })
