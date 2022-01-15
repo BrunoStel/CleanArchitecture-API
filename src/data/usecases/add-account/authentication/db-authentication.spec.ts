@@ -159,7 +159,7 @@ describe('DbAuthenticationUseCase', () => {
 
     expect(loadSpy).toHaveBeenCalledWith(id, acessToken)
   })
-  it('Should throw if updateAccessTokenRepository throws', async () => {
+  it('Should throw if UpdateAccessTokenRepository throws', async () => {
     const { sut, updateAccessTokenRepositoryStub } = makeSut()
 
     jest.spyOn(updateAccessTokenRepositoryStub, 'updateToken').mockReturnValueOnce(
