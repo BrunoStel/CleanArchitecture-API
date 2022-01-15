@@ -2,6 +2,7 @@ import { IAccountModel } from '../db-add-account-Protocols'
 import { IloadAccountByEmailRepository } from '../../protocols/IloadAccountByEmailRepository'
 import { DbAuthentication } from './db-authentication'
 import { IHashComparer } from '../../protocols/IHashComparer'
+import { ITokenGenerator } from '../../protocols/ITokenGenerator'
 
 class LoadAccountByEmailRepositoryStub implements IloadAccountByEmailRepository {
   async load (email: string): Promise<IAccountModel> {
@@ -21,19 +22,28 @@ class HashCompareStub implements IHashComparer {
   }
 }
 
+class TokenGeneratorStub implements ITokenGenerator {
+  async generate (): Promise<string> {
+    return 'any_token'
+  }
+}
+
 interface ISut {
   sut: DbAuthentication
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepositoryStub
   hashCompareStub: HashCompareStub
+  tokenGeneratorStub: TokenGeneratorStub
 }
 const makeSut = (): ISut => {
   const loadAccountByEmailRepositoryStub = new LoadAccountByEmailRepositoryStub()
   const hashCompareStub = new HashCompareStub()
-  const sut = new DbAuthentication(loadAccountByEmailRepositoryStub, hashCompareStub)
+  const tokenGeneratorStub = new TokenGeneratorStub()
+  const sut = new DbAuthentication(tokenGeneratorStub, loadAccountByEmailRepositoryStub, hashCompareStub)
   return {
     sut,
     loadAccountByEmailRepositoryStub,
-    hashCompareStub
+    hashCompareStub,
+    tokenGeneratorStub
   }
 }
 
@@ -104,5 +114,16 @@ describe('DbAuthenticationUseCase', () => {
       password: 'any_password'
     })
     expect(acessToken).toBeNull()
+  })
+  it('Should throw if TokenGenerator throws', async () => {
+    const { sut, tokenGeneratorStub } = makeSut()
+
+    jest.spyOn(tokenGeneratorStub, 'generate').mockReturnValueOnce(
+      new Promise((resolve, reject) => reject(new Error()))
+    )
+
+    const promise = sut.execute({ email: 'any_email@mail.com', password: 'any_password' })
+
+    await expect(promise).rejects.toThrow()
   })
 })
