@@ -2,16 +2,19 @@ import { IAuthentication, IAuthenticationModel } from '../../../../domain/usecas
 import { IHashComparer } from '../../protocols/IHashComparer'
 import { IloadAccountByEmailRepository } from '../../protocols/IloadAccountByEmailRepository'
 import { ITokenGenerator } from '../../protocols/ITokenGenerator'
+import { IUpdateAccessTokenRepository } from '../../protocols/IUpdateAccessTokenRepository'
 
 export class DbAuthentication implements IAuthentication {
   constructor (
     private readonly tokenGeneratorStub: ITokenGenerator,
     private readonly loadAccountByEmailRepository: IloadAccountByEmailRepository,
-    private readonly hashCompare: IHashComparer
+    private readonly hashCompare: IHashComparer,
+    private readonly updateAccessTokenRepository: IUpdateAccessTokenRepository
   ) {
     this.loadAccountByEmailRepository = loadAccountByEmailRepository
     this.hashCompare = hashCompare
     this.tokenGeneratorStub = tokenGeneratorStub
+    this.updateAccessTokenRepository = updateAccessTokenRepository
   }
 
   async execute (authenticationModel: IAuthenticationModel): Promise<string> {
@@ -28,6 +31,8 @@ export class DbAuthentication implements IAuthentication {
     }
 
     const acessToken = await this.tokenGeneratorStub.generate()
+
+    await this.updateAccessTokenRepository.updateToken(account.id, acessToken)
 
     return acessToken
   }
