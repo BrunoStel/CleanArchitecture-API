@@ -115,6 +115,15 @@ describe('DbAuthenticationUseCase', () => {
     })
     expect(acessToken).toBeNull()
   })
+  it('Should call TokenGenerator if HashCompare returns true', async () => {
+    const { sut, tokenGeneratorStub } = makeSut()
+
+    const generateSpy = jest.spyOn(tokenGeneratorStub, 'generate')
+
+    await sut.execute({ email: 'any_email@mail.com', password: 'any_password' })
+
+    expect(generateSpy).toHaveBeenCalled()
+  })
   it('Should throw if TokenGenerator throws', async () => {
     const { sut, tokenGeneratorStub } = makeSut()
 
