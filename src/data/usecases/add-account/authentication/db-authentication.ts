@@ -24,15 +24,17 @@ export class DbAuthentication implements IAuthentication {
       return null
     }
 
-    const passwordComparison = await this.hashCompare.compare(authenticationModel.password, account.password)
+    const { password: passwordHashed, id } = account
+
+    const passwordComparison = await this.hashCompare.compare(authenticationModel.password, passwordHashed)
 
     if (!passwordComparison) {
       return null
     }
 
-    const acessToken = await this.tokenGeneratorStub.generate()
+    const acessToken = await this.tokenGeneratorStub.generate(id)
 
-    await this.updateAccessTokenRepository.updateToken(account.id, acessToken)
+    await this.updateAccessTokenRepository.updateToken(id, acessToken)
 
     return acessToken
   }

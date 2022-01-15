@@ -1,4 +1,4 @@
 
 export interface ITokenGenerator {
-  generate: () => Promise<string>
+  generate: (id: string) => Promise<string>
 }
