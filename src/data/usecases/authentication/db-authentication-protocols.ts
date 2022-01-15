@@ -1,0 +1,6 @@
+export * from '../add-account/db-add-account-Protocols'
+export * from '../../protocols/IloadAccountByEmailRepository'
+export * from './db-authentication'
+export * from '../../protocols/IHashComparer'
+export * from '../../protocols/ITokenGenerator'
+export * from '../../protocols/IUpdateAccessTokenRepository'

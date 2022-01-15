@@ -1,9 +1,11 @@
-import { IAccountModel } from '../db-add-account-Protocols'
-import { IloadAccountByEmailRepository } from '../../protocols/IloadAccountByEmailRepository'
-import { DbAuthentication } from './db-authentication'
-import { IHashComparer } from '../../protocols/IHashComparer'
-import { ITokenGenerator } from '../../protocols/ITokenGenerator'
-import { IUpdateAccessTokenRepository } from '../../protocols/IUpdateAccessTokenRepository'
+import {
+  IAccountModel,
+  IloadAccountByEmailRepository,
+  DbAuthentication,
+  IHashComparer,
+  ITokenGenerator,
+  IUpdateAccessTokenRepository
+} from '../authentication/db-authentication-protocols'
 
 class LoadAccountByEmailRepositoryStub implements IloadAccountByEmailRepository {
   async load (email: string): Promise<IAccountModel> {

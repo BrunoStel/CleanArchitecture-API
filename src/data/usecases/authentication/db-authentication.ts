@@ -1,8 +1,10 @@
-import { IAuthentication, IAuthenticationModel } from '../../../../domain/usecases/protocols/IAuthentication'
-import { IHashComparer } from '../../protocols/IHashComparer'
-import { IloadAccountByEmailRepository } from '../../protocols/IloadAccountByEmailRepository'
-import { ITokenGenerator } from '../../protocols/ITokenGenerator'
-import { IUpdateAccessTokenRepository } from '../../protocols/IUpdateAccessTokenRepository'
+import { IAuthentication, IAuthenticationModel } from '../../../domain/usecases/protocols/IAuthentication'
+import {
+  IloadAccountByEmailRepository,
+  IHashComparer,
+  ITokenGenerator,
+  IUpdateAccessTokenRepository
+} from '../authentication/db-authentication-protocols'
 
 export class DbAuthentication implements IAuthentication {
   constructor (
@@ -26,9 +28,9 @@ export class DbAuthentication implements IAuthentication {
 
     const { password: passwordHashed, id } = account
 
-    const passwordComparison = await this.hashCompare.compare(authenticationModel.password, passwordHashed)
+    const isValid = await this.hashCompare.compare(authenticationModel.password, passwordHashed)
 
-    if (!passwordComparison) {
+    if (!isValid) {
       return null
     }
 
