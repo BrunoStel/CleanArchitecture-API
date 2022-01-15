@@ -36,7 +36,7 @@ describe('BCryptAdapter', () => {
 
     expect(hashSpy).toHaveBeenLastCalledWith(password, salt)
   })
-  it('Should return a hash on hash succes', async () => {
+  it('Should return a valid hash on hash succes', async () => {
     const { sut } = makeSut()
 
     const password = 'valid_password'
@@ -64,5 +64,12 @@ describe('BCryptAdapter', () => {
     await sut.compare('any_value', 'any_hash')
 
     expect(compareSpy).toHaveBeenLastCalledWith('any_value', 'any_hash')
+  })
+  it('Should return a true when compare succeeds', async () => {
+    const { sut } = makeSut()
+
+    const isValid = await sut.compare('any_value', 'any_hash')
+
+    expect(isValid).toBe(true)
   })
 })
