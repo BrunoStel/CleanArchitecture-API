@@ -24,7 +24,7 @@ class HashCompareStub implements IHashComparer {
 }
 
 class TokenGeneratorStub implements ITokenGenerator {
-  async generate (): Promise<string> {
+  async generate (id: string): Promise<string> {
     return 'any_token'
   }
 }
@@ -132,6 +132,20 @@ describe('DbAuthenticationUseCase', () => {
 
     expect(generateSpy).toHaveBeenCalled()
   })
+  it('Should call TokenGenerator  with user id', async () => {
+    const { sut, tokenGeneratorStub, loadAccountByEmailRepositoryStub } = makeSut()
+
+    const { id } = await loadAccountByEmailRepositoryStub.load('any_email')
+
+    const generateSpy = jest.spyOn(tokenGeneratorStub, 'generate')
+
+    await sut.execute({
+      email: 'any_email@mail.com',
+      password: 'any_password'
+    })
+
+    expect(generateSpy).toHaveBeenCalledWith(id)
+  })
   it('Should throw if TokenGenerator throws', async () => {
     const { sut, tokenGeneratorStub } = makeSut()
 
@@ -148,7 +162,7 @@ describe('DbAuthenticationUseCase', () => {
 
     const { id } = await loadAccountByEmailRepositoryStub.load('any_email@mail.com')
 
-    const acessToken = await tokenGeneratorStub.generate()
+    const acessToken = await tokenGeneratorStub.generate(id)
 
     const loadSpy = jest.spyOn(updateAccessTokenRepositoryStub, 'updateToken')
 
