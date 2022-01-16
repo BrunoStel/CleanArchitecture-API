@@ -49,7 +49,7 @@ describe('Login routes', () => {
         })
         .expect(200)
     })
-    it('Should return 401 if login fails', async () => {
+    it('Should return 401 if invalid credentials are provided', async () => {
       await request(app)
         .post('/api/login')
         .send({
