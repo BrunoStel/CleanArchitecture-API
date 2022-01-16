@@ -1,9 +1,8 @@
-import { IAddAccountRepository } from '../../../../data/protocols/db/IAddAccountRepositoyProtocol'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { AccountMongoRepository } from './account'
 
 interface ITypeSut {
-  sut: IAddAccountRepository
+  sut: AccountMongoRepository
 }
 
 const makeSut = (): ITypeSut => {
@@ -28,7 +27,7 @@ describe('Account Mongo Repository', () => {
     await accountCollection.deleteMany({})
   })
 
-  it('Should return an account on success', async () => {
+  it('Should return an account on add success', async () => {
     const { sut } = makeSut()
 
     const accountData = {
@@ -38,6 +37,25 @@ describe('Account Mongo Repository', () => {
     }
 
     const account = await sut.add(accountData)
+
+    expect(account).toBeTruthy()
+    expect(account.id).toBeTruthy()
+    expect(account.name).toBe('valid_name')
+    expect(account.email).toBe('valid_mail')
+    expect(account.password).toBe('hashed_password')
+  })
+  it('Should return an account on loadByEmail success', async () => {
+    const { sut } = makeSut()
+
+    const accountData = {
+      name: 'valid_name',
+      email: 'valid_mail',
+      password: 'hashed_password'
+    }
+
+    await sut.add(accountData)
+
+    const account = await sut.loadByEmail('valid_mail')
 
     expect(account).toBeTruthy()
     expect(account.id).toBeTruthy()
