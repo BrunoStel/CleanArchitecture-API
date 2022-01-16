@@ -8,7 +8,7 @@ import {
 
 export class DbAuthentication implements IAuthentication {
   constructor (
-    private readonly tokenGeneratorStub: ITokenGenerator,
+    private readonly tokenGenerator: ITokenGenerator,
     private readonly loadAccountByEmailRepository: IloadAccountByEmailRepository,
     private readonly hashCompare: IHashComparer,
     private readonly updateAccessTokenRepository: IUpdateAccessTokenRepository
@@ -29,7 +29,7 @@ export class DbAuthentication implements IAuthentication {
       return null
     }
 
-    const acessToken = await this.tokenGeneratorStub.generate(id)
+    const acessToken = await this.tokenGenerator.generate(id)
 
     await this.updateAccessTokenRepository.updateToken(id, acessToken)
 
