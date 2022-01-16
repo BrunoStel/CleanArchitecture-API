@@ -1,8 +1,8 @@
-export interface IUpdateToken {
+export interface IUpdateTokenInput {
   acessToken: string
   id: string
 }
 
 export interface IUpdateAccessTokenRepository {
-  updateToken: ({ acessToken, id }: IUpdateToken) => Promise<void>
+  updateToken: ({ acessToken, id }: IUpdateTokenInput) => Promise<void>
 }

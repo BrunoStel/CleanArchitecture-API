@@ -5,7 +5,7 @@ import {
   IHashComparer,
   ITokenGenerator,
   IUpdateAccessTokenRepository,
-  IUpdateToken
+  IUpdateTokenInput
 } from '../authentication/db-authentication-protocols'
 
 class LoadAccountByEmailRepositoryStub implements IloadAccountByEmailRepository {
@@ -33,7 +33,7 @@ class TokenGeneratorStub implements ITokenGenerator {
 }
 
 class UpdateAccessTokenRepositoryStub implements IUpdateAccessTokenRepository {
-  async updateToken ({ acessToken, id }: IUpdateToken): Promise<void> {}
+  async updateToken ({ acessToken, id }: IUpdateTokenInput): Promise<void> {}
 }
 
 interface ISut {
