@@ -4,10 +4,7 @@ import { IController, IHttpRequest, IHttpResponse } from '../../presentation/pro
 export class LogControllerDecoretor implements IController {
   constructor (
     private readonly controller: IController,
-    private readonly logErrorRepository: ILogErrorRepository) {
-    this.controller = controller
-    this.logErrorRepository = logErrorRepository
-  }
+    private readonly logErrorRepository: ILogErrorRepository) {}
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
     const httReponse = await this.controller.handle(httpRequest)

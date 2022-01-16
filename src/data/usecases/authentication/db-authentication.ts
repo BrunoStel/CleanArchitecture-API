@@ -12,12 +12,7 @@ export class DbAuthentication implements IAuthentication {
     private readonly loadAccountByEmailRepository: IloadAccountByEmailRepository,
     private readonly hashCompare: IHashComparer,
     private readonly updateAccessTokenRepository: IUpdateAccessTokenRepository
-  ) {
-    this.loadAccountByEmailRepository = loadAccountByEmailRepository
-    this.hashCompare = hashCompare
-    this.tokenGeneratorStub = tokenGeneratorStub
-    this.updateAccessTokenRepository = updateAccessTokenRepository
-  }
+  ) {}
 
   async execute (authenticationModel: IAuthenticationModel): Promise<string> {
     const account = await this.loadAccountByEmailRepository.loadByEmail(authenticationModel.email)

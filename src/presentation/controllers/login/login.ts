@@ -6,10 +6,7 @@ export class LoginController implements IController {
   constructor (
     private readonly authentication: IAuthentication,
     private readonly validation: IValidation
-  ) {
-    this.authentication = authentication
-    this.validation = validation
-  }
+  ) {}
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
