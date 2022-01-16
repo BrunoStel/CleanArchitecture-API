@@ -11,12 +11,12 @@ export class LoginController implements IController {
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
       const error = this.validation.validate(httpRequest.body)
-
       if (error) {
         return badRequest(error)
       }
 
       const token = await this.authentication.execute(httpRequest.body)
+
       if (!token) {
         return unauthorized()
       }

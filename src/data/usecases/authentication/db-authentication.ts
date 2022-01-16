@@ -31,7 +31,7 @@ export class DbAuthentication implements IAuthentication {
 
     const acessToken = await this.tokenGenerator.generate(id)
 
-    await this.updateAccessTokenRepository.updateToken(id, acessToken)
+    await this.updateAccessTokenRepository.updateToken({ acessToken, id })
 
     return acessToken
   }

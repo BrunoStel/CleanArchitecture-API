@@ -89,7 +89,7 @@ describe('Account Mongo Repository', () => {
 
     const { id } = await sut.add(accountData)
 
-    await sut.updateToken('any_token', id)
+    await sut.updateToken({ id, acessToken: 'any_token' })
 
     const account = await sut.loadByEmail('valid_mail')
 

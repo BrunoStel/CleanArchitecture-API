@@ -4,7 +4,8 @@ import {
   DbAuthentication,
   IHashComparer,
   ITokenGenerator,
-  IUpdateAccessTokenRepository
+  IUpdateAccessTokenRepository,
+  IUpdateToken
 } from '../authentication/db-authentication-protocols'
 
 class LoadAccountByEmailRepositoryStub implements IloadAccountByEmailRepository {
@@ -32,7 +33,7 @@ class TokenGeneratorStub implements ITokenGenerator {
 }
 
 class UpdateAccessTokenRepositoryStub implements IUpdateAccessTokenRepository {
-  async updateToken (acessToken: string, id: string): Promise<void> {}
+  async updateToken ({ acessToken, id }: IUpdateToken): Promise<void> {}
 }
 
 interface ISut {
@@ -158,7 +159,7 @@ describe('DbAuthenticationUseCase', () => {
 
     await sut.execute(makeInput())
 
-    expect(loadSpy).toHaveBeenCalledWith('any_id', 'any_token')
+    expect(loadSpy).toHaveBeenCalledWith({ id: 'any_id', acessToken: 'any_token' })
   })
   it('Should throw if UpdateAccessTokenRepository throws', async () => {
     const { sut, updateAccessTokenRepositoryStub } = makeSut()

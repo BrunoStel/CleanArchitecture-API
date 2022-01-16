@@ -1,7 +1,7 @@
 import { ObjectID } from 'bson'
 import { IAddAccountRepository } from '../../../../data/protocols/db/IAddAccountRepositoyProtocol'
 import { IloadAccountByEmailRepository } from '../../../../data/protocols/db/IloadAccountByEmailRepository'
-import { IUpdateAccessTokenRepository } from '../../../../data/protocols/db/IUpdateAccessTokenRepository'
+import { IUpdateAccessTokenRepository, IUpdateToken } from '../../../../data/protocols/db/IUpdateAccessTokenRepository'
 import { IAccountModel } from '../../../../domain/entities/IAccountModel'
 import { IAddAccountModel } from '../../../../domain/usecases/protocols/IAddAccount'
 import { MongoHelper } from '../helpers/mongo-helper'
@@ -33,7 +33,7 @@ export class AccountMongoRepository implements IAddAccountRepository, IloadAccou
     return account
   }
 
-  async updateToken (acessToken: string, id: string): Promise<void> {
+  async updateToken ({ acessToken, id }: IUpdateToken): Promise<void> {
     const accountCollection = await MongoHelper.getCollection('accounts')
 
     await accountCollection.updateOne({
