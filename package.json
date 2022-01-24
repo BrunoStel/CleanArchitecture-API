@@ -16,7 +16,7 @@
     "clear_jest": "jest --clearCache"
   },
   "keywords": [],
-  "author": "",
+  "author": "Bruno Stelmastchuk",
   "license": "ISC",
   "devDependencies": {
     "@shelf/jest-mongodb": "^2.2.0",
@@ -45,14 +45,17 @@
     "supertest": "^6.1.6",
     "ts-jest": "^27.1.2",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.4",
+    "jest": "^27.4.7"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "express": "^4.17.2",
-    "jest": "^27.4.7",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.2.2",
     "validator": "^13.7.0"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
