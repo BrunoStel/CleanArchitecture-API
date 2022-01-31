@@ -1,5 +1,4 @@
 import { Collection, MongoClient } from 'mongodb'
-import { IAccountModel } from '../../../../domain/entities/IAccountModel'
 
 export const MongoHelper = {
   client: null as MongoClient,
@@ -20,7 +19,7 @@ export const MongoHelper = {
   map (collectionById: any): any {
     const { _id, ...collectionWithoutId } = collectionById
 
-    const collection = Object.assign({}, collectionWithoutId, { id: _id.toHexString() }) as IAccountModel
+    const collection = Object.assign({}, collectionWithoutId, { id: _id.toHexString() })
 
     return collection
   }
