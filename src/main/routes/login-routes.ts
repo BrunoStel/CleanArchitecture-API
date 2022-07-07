@@ -9,4 +9,8 @@ export default (router: Router): void => {
 
   const loginController = makeLoginController()
   router.post('/login', adaptRoute(loginController))
+
+  router.get('/healthy', (req, res) => {
+    res.sendStatus(200)
+  })
 }
