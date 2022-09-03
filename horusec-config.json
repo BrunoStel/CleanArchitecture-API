@@ -1,18 +1,11 @@
 {
   "horusecCliCustomImages": {
-    "c": "",
-    "csharp": "",
-    "elixir": "",
-    "generic": "",
-    "go": "",
     "hcl": "",
     "javascript": "",
-    "leaks":"",
-    "php": "",
-    "python": "",
-    "ruby": "",
-    "shell": ""
+    "typescript":""
   },
+  "horusecCliFilesOrPathsToIgnore":"**/*.py",
+  "horusecCliFalsePositiveHashes": "4be0ac8b3e0693424cc60abdab49d01221cb56232b6f84969f03b5b6579bddc2",
   "horusecCliToolsConfig": {
     "Bandit": {
       "istoignore": false

@@ -1,0 +1,1 @@
+{"version":3,"file":"log.js","sourceRoot":"","sources":["../../../../../src/infra/db/mongodb/log-repository/log.ts"],"names":[],"mappings":";;;AACA,0DAAqD;AAErD,MAAa,kBAAkB;IAC7B,KAAK,CAAC,QAAQ,CAAE,KAAa;QAC3B,MAAM,eAAe,GAAG,MAAM,0BAAW,CAAC,aAAa,CAAC,QAAQ,CAAC,CAAA;QACjE,MAAM,eAAe,CAAC,SAAS,CAAC;YAC9B,KAAK;YACL,IAAI,EAAE,IAAI,IAAI,EAAE;SACjB,CAAC,CAAA;IACJ,CAAC;CACF;AARD,gDAQC"}
