@@ -1,5 +1,4 @@
 {
-  "horusecCliCertInsecureSkipVerify": false,
   "horusecCliCertPath": "",
   "horusecCliContainerBindProjectPath": "",
   "horusecCliCustomImages": {
@@ -16,10 +15,10 @@
     "shell": ""
   },
   "horusecCliCustomRulesPath": "",
-  "horusecCliDisableDocker": false,
-  "horusecCliEnableCommitAuthor": false,
-  "horusecCliEnableGitHistoryAnalysis": false,
-  "horusecCliEnableInformationSeverity": false,
+  "horusecCliDisableDocker": true,
+  "horusecCliEnableCommitAuthor": true,
+  "horusecCliEnableGitHistoryAnalysis": true,
+  "horusecCliEnableInformationSeverity": true,
   "horusecCliFalsePositiveHashes": [
   ],
   "horusecCliFilesOrPathsToIgnore": [
@@ -42,7 +41,7 @@
   "horusecCliProjectPath": "./",
   "horusecCliRepositoryAuthorization": "00000000-0000-0000-0000-000000000000",
   "horusecCliRepositoryName": "",
-  "horusecCliReturnErrorIfFoundVulnerability": true,
+  "horusecCliReturnErrorIfFoundVulnerability": false,
   "horusecCliRiskAcceptHashes": [],
   "horusecCliSeveritiesToIgnore": [],
   "horusecCliShowVulnerabilitiesTypes": [
