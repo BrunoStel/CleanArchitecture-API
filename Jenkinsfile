@@ -10,43 +10,13 @@ pipeline {
               }
           }
         }
-        stage('Setting pipeline'){
+        stage('Horusec'){
           steps{
-              script {
-                utils.dockerBuild()
+              script{
+                sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -v pwd:/src horuszup/horusec-cli:latest horusec start -p /src -P pwd"
               }
           }
         }
-        stage('Validade Project'){
-          steps{
-              script {
-                utils.dockerRun("npm install");
-              }
-          }
-        }
-        stage('SonarQube analysis') {
-          steps{
-            script{
-              withSonarQubeEnv('Devops') {
-                utils.sendSonarqube()
-              }
-            }
-          }
-        }
-         stage('Quality Gate') {
-          steps{
-            script{
-              def qg = waitForQualityGate
-              if(qg.status == "SUCCESS"){
-                bat "Sucesso no quality gate"
-              }
-            }
-          }
-        }
-        stage('Deploy Lambda'){
-            steps{
-              bat "echo Finalizandoo"
-            }
-        }
+ 
     }
 }
