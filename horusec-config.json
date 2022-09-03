@@ -67,7 +67,7 @@
       "istoignore": false
     },
     "GitLeaks": {
-      "istoignore": false
+      "istoignore": true
     },
     "GoSec": {
       "istoignore": false
