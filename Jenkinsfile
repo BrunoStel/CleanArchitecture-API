@@ -293,15 +293,8 @@ def dockerRun(String script, Boolean getReturn = false){
 pipeline {
     agent any
     stages {
-        stage('Verifying modified files')           { steps { script { verifyFilesModified() } } }
-        stage('OWASP Zap'){
-          steps{
-              script{
-                sh "yarn install && node dist/main/server.js >> output.log &"
-                sleep(30)
-                sh "docker run --rm -t owasp/zap2docker-stable zap-baseline.py -t http://192.168.1.2:5050"
-              }
-          }
-         }
+        stage('Verifying modified files')           { steps { script { verifyFilesModified() 
+        deleteDir()
+        } } }
     }
 }
