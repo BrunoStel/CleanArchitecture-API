@@ -38,6 +38,13 @@ pipeline {
               }
           }
         }
+        stage('LS'){
+          steps{
+              script{
+                sh "ls"
+              }
+          }
+        }
          stage('Installing dependencies'){
           steps{
               script{
