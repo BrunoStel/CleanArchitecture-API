@@ -27,9 +27,7 @@ def gitLeaksRun(){
   }catch(error){
   }
 }
-def horusecRun(){
-    sh "cd filesToAnalyse && docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v \$(pwd):/src horuszup/horusec-cli:latest horusec start -p /src -P \$(pwd) --config-file-path src/horusec-config.json"
-}
+
 pipeline {
     agent any
     stages{
@@ -40,20 +38,28 @@ pipeline {
               }
           }
         }
-         stage('Horusec Analysis'){
+         stage('Installing dependencies'){
           steps{
               script{
-                horusecRun()
+                sh "yarn"
               }
           }
         }
-        stage('Gitleaks Analysis'){
+        stage('Testin'){
           steps{
               script{
-                gitLeaksRun()
+                sh "yarn test"
               }
           }
         }
+  
+       // stage('Gitleaks Analysis'){
+        //  steps{
+         //     script{
+        //        gitLeaksRun()
+       //       }
+       //   }
+        //}
         stage('Sonar - BFF') {
           when {
               expression { verifyPathBFF() } 
