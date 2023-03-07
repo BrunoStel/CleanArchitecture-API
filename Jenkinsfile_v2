@@ -31,42 +31,13 @@ def gitLeaksRun(){
 pipeline {
     agent any
     stages{
-          stage('Verificando Arquivos modificados'){
+        stage('Gitleaks Analysis'){
           steps{
               script{
-                verifyFilesModified()
+                gitLeaksRun()
               }
           }
         }
-        stage('LS'){
-          steps{
-              script{
-                sh "ls"
-              }
-          }
-        }
-         stage('Installing dependencies'){
-          steps{
-              script{
-                sh "yarn"
-              }
-          }
-        }
-        stage('Testin'){
-          steps{
-              script{
-                sh "yarn test"
-              }
-          }
-        }
-  
-       // stage('Gitleaks Analysis'){
-        //  steps{
-         //     script{
-        //        gitLeaksRun()
-       //       }
-       //   }
-        //}
         stage('Sonar - BFF') {
           when {
               expression { verifyPathBFF() } 
